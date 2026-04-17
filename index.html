@@ -61,6 +61,22 @@
             from { transform: rotate(0deg); }
             to { transform: rotate(360deg); }
         }
+        
+        /* Gatilho de Atenção (Tremer Sutil) */
+        .attention-shake {
+            opacity: 1; /* Esta é a âncora que impede o botão de voltar para as sombras */
+            animation: subtleShake 5s cubic-bezier(.36,.07,.19,.97) infinite;
+        }
+        /* Interrompe a vibração ao passar o mouse para manter a elegância do hover original */
+        .link-card.attention-shake:hover {
+            animation: none; 
+            transform: translateY(-2px);
+        }
+        @keyframes subtleShake {
+            0%, 15%, 100% { transform: translateX(0); }
+            2%, 6%, 10% { transform: translateX(-3px); }
+            4%, 8%, 12% { transform: translateX(3px); }
+        }
     </style>
 </head>
 <body class="antialiased min-h-screen flex flex-col items-center justify-center p-6 relative overflow-hidden">
@@ -100,7 +116,7 @@
         <div class="space-y-4">
             
             <!-- Novo Botão Principal -->
-            <a href="https://decifrando-pessoas.vercel.app/" class="link-card animate-on-load glow-btn block w-full bg-stoic-gold hover:bg-stoic-goldhover text-stoic-900 font-bold uppercase tracking-wide py-4 px-6 rounded-md text-center flex items-center justify-center gap-3" style="animation-delay: 1700ms;">
+            <a href="https://decifrando-pessoas.vercel.app/" id="main-offer-btn" class="link-card animate-on-load glow-btn block w-full bg-stoic-gold hover:bg-stoic-goldhover text-stoic-900 font-bold uppercase tracking-wide py-4 px-6 rounded-md text-center flex items-center justify-center gap-3" style="animation-delay: 1700ms;">
                 <i data-lucide="key" class="w-5 h-5"></i>
                 <span>Guia: Decifrando Pessoas</span>
             </a>
@@ -149,6 +165,13 @@
                 setTimeout(() => {
                     initialLoader.classList.add('pointer-events-none');
                     initialLoader.style.display = 'none';
+                    
+                    // Dispara o gatilho visual no botão principal APÓS a poeira baixar
+                    setTimeout(() => {
+                        const mainBtn = document.getElementById('main-offer-btn');
+                        if(mainBtn) mainBtn.classList.add('attention-shake');
+                    }, 2000);
+                    
                 }, 1000);
                 
             }, 1200);
