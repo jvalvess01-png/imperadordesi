@@ -65,7 +65,13 @@
 </head>
 <body class="antialiased min-h-screen flex flex-col items-center justify-center p-6 relative overflow-hidden">
 
-    <!-- Tela de Carregamento Estóica -->
+    <!-- Tela de Carregamento INICIAL (Entrada) -->
+    <div id="initial-loader" class="fixed inset-0 z-[60] bg-stoic-900 flex flex-col items-center justify-center transition-opacity duration-1000">
+        <i data-lucide="shield" class="w-10 h-10 text-stoic-gold animate-pulse mb-4"></i>
+        <p class="text-neutral-500 text-xs uppercase tracking-widest animate-pulse">Adentrando a trincheira...</p>
+    </div>
+
+    <!-- Tela de Carregamento FINAL (Saída / Checkout) -->
     <div id="loading-overlay" class="fixed inset-0 z-50 bg-stoic-900 flex flex-col items-center justify-center opacity-0 pointer-events-none transition-opacity duration-500">
         <i data-lucide="hourglass" class="w-12 h-12 text-stoic-gold animate-slow-spin mb-6"></i>
         <h2 class="font-serif text-2xl text-white tracking-widest mb-2">Preparando o Caminho</h2>
@@ -77,8 +83,8 @@
 
     <main class="w-full max-w-md mx-auto relative z-10">
         
-        <!-- Perfil com a Nova Imagem -->
-        <header class="text-center mb-10 animate-on-load" style="animation-delay: 100ms;">
+        <!-- Perfil com a Nova Imagem (Delay ajustado para APÓS o carregamento inicial) -->
+        <header class="text-center mb-10 animate-on-load" style="animation-delay: 1500ms;">
             <img src="new-logo.jpg" alt="Imperador de Si" class="w-28 h-28 mx-auto mb-4 rounded-full border border-stoic-700 shadow-2xl object-cover ring-4 ring-stoic-900/50">
             
             <h1 class="font-serif text-2xl font-bold text-white mb-1 tracking-wide">Imperador de Si</h1>
@@ -94,23 +100,23 @@
         <div class="space-y-4">
             
             <!-- Novo Botão Principal -->
-            <a href="https://decifrando-pessoas.vercel.app/" class="link-card animate-on-load glow-btn block w-full bg-stoic-gold hover:bg-stoic-goldhover text-stoic-900 font-bold uppercase tracking-wide py-4 px-6 rounded-md text-center flex items-center justify-center gap-3" style="animation-delay: 200ms;">
+            <a href="https://decifrando-pessoas.vercel.app/" class="link-card animate-on-load glow-btn block w-full bg-stoic-gold hover:bg-stoic-goldhover text-stoic-900 font-bold uppercase tracking-wide py-4 px-6 rounded-md text-center flex items-center justify-center gap-3" style="animation-delay: 1700ms;">
                 <i data-lucide="key" class="w-5 h-5"></i>
                 <span>Guia: Decifrando Pessoas</span>
             </a>
 
             <!-- Botões Secundários -->
-            <a href="https://anatomia-da-ansiedade-moderna.vercel.app/" class="link-card animate-on-load block w-full bg-stoic-800 border border-stoic-700 text-neutral-300 hover:text-white hover:border-stoic-gold py-4 px-6 rounded-md text-center text-sm tracking-wide flex items-center justify-center gap-3" style="animation-delay: 300ms;">
+            <a href="https://anatomia-da-ansiedade-moderna.vercel.app/" class="link-card animate-on-load block w-full bg-stoic-800 border border-stoic-700 text-neutral-300 hover:text-white hover:border-stoic-gold py-4 px-6 rounded-md text-center text-sm tracking-wide flex items-center justify-center gap-3" style="animation-delay: 1900ms;">
                 <i data-lucide="book" class="w-5 h-5 text-stoic-gold"></i>
                 <span>Manual: A Anatomia da Ansiedade Moderna</span>
             </a>
 
-            <a href="https://amzn.to/4edmwlJ" class="link-card animate-on-load block w-full bg-stoic-800 border border-stoic-700 text-neutral-300 hover:text-white hover:border-stoic-gold py-4 px-6 rounded-md text-center text-sm tracking-wide flex items-center justify-center gap-3" style="animation-delay: 400ms;">
+            <a href="https://amzn.to/4edmwlJ" class="link-card animate-on-load block w-full bg-stoic-800 border border-stoic-700 text-neutral-300 hover:text-white hover:border-stoic-gold py-4 px-6 rounded-md text-center text-sm tracking-wide flex items-center justify-center gap-3" style="animation-delay: 2100ms;">
                 <i data-lucide="library" class="w-5 h-5 text-stoic-gold"></i>
                 <span>Box Livros: Biblioteca Estóica - Grandes Mestres</span>
             </a>
 
-            <a href="https://amzn.to/41WpxiT" class="link-card animate-on-load block w-full bg-stoic-800 border border-stoic-700 text-neutral-300 hover:text-white hover:border-stoic-gold py-4 px-6 rounded-md text-center text-sm tracking-wide flex items-center justify-center gap-3" style="animation-delay: 500ms;">
+            <a href="https://amzn.to/41WpxiT" class="link-card animate-on-load block w-full bg-stoic-800 border border-stoic-700 text-neutral-300 hover:text-white hover:border-stoic-gold py-4 px-6 rounded-md text-center text-sm tracking-wide flex items-center justify-center gap-3" style="animation-delay: 2300ms;">
                 <i data-lucide="bookmark" class="w-5 h-5 text-stoic-gold"></i>
                 <span>Livro: 365 Reflexões Estóicas</span>
             </a>
@@ -118,7 +124,7 @@
         </div>
 
         <!-- Footer -->
-        <footer class="mt-12 text-center animate-on-load" style="animation-delay: 600ms;">
+        <footer class="mt-12 text-center animate-on-load" style="animation-delay: 2500ms;">
             <i data-lucide="sword" class="w-5 h-5 text-stoic-700 mx-auto mb-2"></i>
             <p class="text-neutral-600 text-xs tracking-widest uppercase">
                 Domine a sua mente.
@@ -131,7 +137,24 @@
         // Inicializa os ícones do Lucide
         lucide.createIcons();
 
-        // Lógica da Tela de Carregamento nos Links
+        // 1. Lógica da Tela de Carregamento INICIAL
+        window.addEventListener('DOMContentLoaded', () => {
+            const initialLoader = document.getElementById('initial-loader');
+            
+            // Aguarda 1.2 segundos e começa a esmaecer
+            setTimeout(() => {
+                initialLoader.classList.add('opacity-0');
+                
+                // Remove o elemento do caminho após esmaecer (1 segundo de transição)
+                setTimeout(() => {
+                    initialLoader.classList.add('pointer-events-none');
+                    initialLoader.style.display = 'none';
+                }, 1000);
+                
+            }, 1200);
+        });
+
+        // 2. Lógica da Tela de Carregamento de SAÍDA (ao clicar nos links)
         document.querySelectorAll('.link-card').forEach(botao => {
             botao.addEventListener('click', function(e) {
                 e.preventDefault(); // Impede abrir diretamente e bruscamente
